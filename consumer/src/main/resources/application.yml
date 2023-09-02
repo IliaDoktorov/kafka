@@ -1,0 +1,23 @@
+server:
+  port: 9090
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: kafka-consumer-test
+  kafka:
+    bootstrap-servers:
+      - host.docker.internal:29092
+    listener:
+      ack-mode: record
+    consumer:
+      group-id: ${spring.application.name}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    properties:
+      spring.json.value.default.type: com.kafka.consumer.dto.UserMassage
+#      spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+#      spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+kafka:
+  topics:
+    message-topic: user_message_topic
