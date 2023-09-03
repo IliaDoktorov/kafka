@@ -1,4 +1,4 @@
-package com.kafka.consumer.dto;
+package com.kafka.dto;
 
 import java.util.Objects;
 

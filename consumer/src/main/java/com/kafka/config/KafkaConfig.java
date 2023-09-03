@@ -1,31 +1,30 @@
-package com.kafka.consumer.config;
+package com.kafka.config;
 
+import com.kafka.dto.UserMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
-import org.springframework.kafka.core.ProducerFactory;
 
 @Configuration
 @EnableKafka
 public class KafkaConfig {
     // org.springframework.kafka.core.DefaultKafkaConsumerFactory will be injected
-    private final ConsumerFactory<Object, Object> consumerFactory;
-    private final ProducerFactory<Object, Object> producerFactory;
+    private final ConsumerFactory<String, UserMessage> consumerFactory;
 
     @Autowired
-    public KafkaConfig(ConsumerFactory<Object, Object> consumerFactory, ProducerFactory<Object, Object> producerFactory) {
+    public KafkaConfig(ConsumerFactory<String, UserMessage> consumerFactory) {
         this.consumerFactory = consumerFactory;
-        this.producerFactory = producerFactory;
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<Object, Object> kafkaListenerContainerFactory(){
+    public ConcurrentKafkaListenerContainerFactory<String, UserMessage> kafkaListenerContainerFactory(){
         // Allows to create consumers which will be process messages from several Kafka partitions simultaneously
-        ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConcurrency(1);
+        ConcurrentKafkaListenerContainerFactory<String, UserMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        // number of threads(consumers) should be == number of partitions in kafka for specific topic
+        factory.setConcurrency(4);
         factory.setConsumerFactory(consumerFactory);
 
         return factory;
