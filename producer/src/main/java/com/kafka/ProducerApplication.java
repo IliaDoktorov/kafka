@@ -10,9 +10,5 @@ public class ProducerApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(ProducerApplication.class, args);
-
-		KafkaProducer kafkaProducer = context.getBean(KafkaProducer.class);
-
-		kafkaProducer.generateMessages();
 	}
 }

@@ -27,6 +27,7 @@ public class KafkaMessagesListener {
     }
 
     public void printMessage(UserMessage userMessage){
-        System.out.println(userMessage);
+        String threadName = Thread.currentThread().getName();
+        System.out.println(threadName + " got message: " + userMessage);
     }
 }
